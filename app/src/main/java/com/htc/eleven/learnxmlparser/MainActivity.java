@@ -67,6 +67,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 tv.append(lan.getElementsByTagName("name").item(0).getTextContent() + " ");
                 tv.append(lan.getElementsByTagName("ide").item(0).getTextContent() + lineBreak );
             }
+
+            /**
+             * add new element based on current content.
+             * */
+            Element e1 = document.createElement("Lan");
+            e1.setAttribute("id", "4");
+            Element sub1 = document.createElement("name");
+            sub1.setTextContent("eleven");
+            Element sub2 = document.createElement("ide");
+            sub2.setTextContent("Home");
+
+            e1.appendChild(sub1);
+            e1.appendChild(sub2);
+
+            element.appendChild(e1);
+
+            /**
+             * create another XML file to store new added content and previous content.
+             * */
+            // transfer and create xml file
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer;
+
+            try {
+                transformer = transformerFactory.newTransformer();
+                transformer.setOutputProperty("encoding", "UTF-8");
+                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+
+                FileOutputStream xmlFile = openFileOutput("output_extend.xml", MODE_PRIVATE);
+                transformer.transform(new DOMSource(document), new StreamResult(xmlFile));
+
+            } catch (TransformerConfigurationException e) {
+                e.printStackTrace();
+            } catch (TransformerException e) {
+                e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (SAXException e) {
